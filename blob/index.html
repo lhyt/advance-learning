@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input id="upload" type="file" />
+<img id="preview" src="" alt="预览"/>
+<video autoplay src=""></video>
+</body>
+<script>
+
+const upload = document.querySelector("#upload");
+const preview = document.querySelector("#preview");
+
+upload.onchange = function() {
+  const file = upload.files[0]; //File对象
+  const src = URL.createObjectURL(file); 
+  preview.src = src;
+};
+
+function ajax(url, cb) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("get", url);
+  xhr.responseType = "blob"; // ""|"text"-字符串 "blob"-Blob对象 "arraybuffer"-ArrayBuffer对象
+  xhr.onload = function() {
+    cb(xhr.response);
+  };
+  xhr.send();
+}
+ajax('./assets/1.mp4', function(res){
+    const src = URL.createObjectURL(res); 
+    document.querySelector('video').src = src;
+})
+</script>
+</html>

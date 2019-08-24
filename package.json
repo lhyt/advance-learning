@@ -1,0 +1,21 @@
+{
+  "name": "advance-learning",
+  "version": "1.0.0",
+  "description": "good good study, day day up",
+  "main": "index.js",
+  "scripts": {
+    "git": "git pull && git add . && git commit -m",
+    "postgit": "git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lhyt/advance-learning.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lhyt/advance-learning/issues"
+  },
+  "homepage": "https://github.com/lhyt/advance-learning#readme"
+}

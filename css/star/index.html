@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>纯css评分星星</title>
+    <link
+      rel="stylesheet"
+      href="//at.alicdn.com/t/font_1356455_c5d3d3ohlbq.css"
+    />
+    <style>
+      .rate-content {
+        display: flex;
+        flex-flow: row-reverse;
+      }
+
+      input {
+        -webkit-appearance: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        margin: 0;
+      }
+
+      .rate-content input[name="rate"] {
+        font-family: "iconfont";
+        font-size: 30px;
+        /* padding-right: 10px; */
+        width: 15px;
+        overflow: hidden;
+      }
+
+      .rate-content input[name="rate"]:nth-child(odd) {
+        direction: rtl;
+      }
+
+      .rate-content input[name="rate"]:after {
+        content: "\e645";
+        color: #999;
+        transition: color 0.4s ease;
+        /* transform: rotateZ(180deg); */
+      }
+
+      .rate-content input[name="rate"]:hover {
+        /* transform: scale(1.2); */
+      }
+
+      .rate-content input[name="rate"]:hover:after,
+      .rate-content input[name="rate"]:checked:after {
+        content: "\e73c";
+        color: #070707;
+      }
+
+      .rate-content input[name="rate"]:hover:after,
+      .rate-content input[name="rate"]:hover ~ input[name="rate"]:after,
+      .rate-content input[name="rate"]:checked:after,
+      .rate-content input[name="rate"]:checked ~ input[name="rate"]:after {
+        content: "\e73c";
+        color: #ffa822;
+      }
+
+      .rate-content input[name="rate"]:hover {
+        /* transform: scale(1.2); */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rate-content">
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+      <input type="radio" name="rate" />
+    </div>
+  </body>
+</html>
