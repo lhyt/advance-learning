@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./three.js"></script>
+    <title>zfb</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .leaving {
+        transition: transform 0.7s, opacity 0.7s;
+        transform: translate3d(0px, -205%, 0);
+        opacity: 0;
+      }
+      .entering {
+        transition: opacity 0.7s;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <canvas></canvas> -->
+  </body>
+  <script>
+    const canvas = document.createElement("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const context = canvas.getContext("2d");
+    const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop(0, "#4e22b7");
+    gradient.addColorStop(1, "#3292ff");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    const texture = new THREE.Texture(canvas);
+    texture.needsUpdate = true;
+
+    const scene = new THREE.Scene();
+    scene.background = texture;
+
+    const config = { totalCount: 10000 };
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.crossOrigin = "";
+    const mapDot = textureLoader.load("./1.jpg"); // 圆点
+
+    const geometry = new THREE.Geometry();
+
+    const count = config.totalCount; // 四个模型中最多个粒子总数值
+    for (let i = 0; i < count; i++) {
+      let x = 0,
+        y = 0,
+        z = 0;
+      x = Math.random() * 2000 - 1000;
+      y = Math.random() * 2000 - 1000;
+      z = Math.random() * 8000 - 4000;
+
+      geometry.vertices.push(new THREE.Vector3(x, y, z));
+      geometry.colors.push(new THREE.Color(1, 1, 1));
+    }
+
+    const material = new THREE.PointsMaterial({
+      size: 20,
+      map: mapDot,
+      depthTest: true,
+      alphaTest: 0.1,
+      opacity: 1,
+      side: THREE.DoubleSide,
+      transparent: !0,
+      vertexColors: THREE.VertexColors
+    });
+    const points = new THREE.Points(geometry, material);
+
+    // 调整模型姿势
+    points.rotation.z = Math.PI;
+    points.rotation.y = Math.PI;
+    points.rotation.x = -Math.PI * 0.3;
+
+    points.position.y = 240;
+    points.position.x = 100;
+    points.position.z = 240;
+    scene.add(points);
+
+    const renderer = new THREE.WebGLRenderer();
+    const camera = new THREE.PerspectiveCamera(
+      90,
+      window.innerWidth / window.innerHeight,
+      1,
+      10000
+    );
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    renderer.render(scene, camera);
+  </script>
+</html>

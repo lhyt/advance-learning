@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>points</title>
+    <script src="./three.js"></script>
+    <script src="./orbitcontrol.js"></script>
+  </head>
+  <body></body>
+  <script type="x-shader/x-vertex" id="vertexshader">
+    void main() {
+      gl_PointSize = 4. + 2. * cos(position.y / 4.);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  </script>
+  <script type="x-shader/x-fragment" id="fragmentshader">
+    uniform vec3 color;
+    void main() {
+        gl_FragColor = vec4(color, 1.0);
+    }
+  </script>
+
+  <script>
+    class Main {
+      constructor() {
+        // 创建球体模型
+        let ball = new THREE.SphereBufferGeometry(40, 30, 30);
+        let uniforms = {
+          // 传递的颜色属性
+          color: {
+            type: "v3", // 指定变量类型为三维向量
+            value: new THREE.Color(0xffffff)
+          }
+        };
+
+        // 创建粒子材料
+        // PointsMaterial
+        let pMaterial = new THREE.ShaderMaterial({
+          uniforms,
+          // 粒子颜色
+          color: 0xffffff,
+          // 粒子大小
+          size: 1,
+          vertexShader: document.getElementById("vertexshader").textContent,
+          // 获取片元着色器代码
+          fragmentShader: document.getElementById("fragmentshader").textContent,
+          // 渲染粒子时的融合模式
+          blending: THREE.AdditiveBlending,
+          // 关闭深度测试
+          depthTest: false,
+          // 开启透明度
+          transparent: true
+        });
+        // 创建粒子系统
+        let particleSystem = new THREE.ParticleSystem(ball, pMaterial);
+        this.particleSystem = particleSystem;
+        // 加入场景
+        this.scene = new THREE.Scene();
+        this.scene.add(particleSystem);
+        this.render();
+      }
+
+      render() {
+        const renderer = new THREE.WebGLRenderer();
+        const camera = new THREE.PerspectiveCamera(
+          90,
+          window.innerWidth / window.innerHeight,
+          1,
+          10000
+        );
+        this.renderer = renderer;
+
+        camera.position.z = 100;
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        renderer.render(this.scene, camera);
+        this.camera = camera;
+        this.raf();
+      }
+
+      raf() {
+        this.renderer.render(this.scene, this.camera);
+        // this.particleSystem.position.y += .1;
+        this.particleSystem.rotation.y += .01;
+        this.particleSystem.rotation.x += .01;
+        this.particleSystem.rotation.z -= .01;
+        requestAnimationFrame(this.raf.bind(this));
+      }
+    }
+    new Main();
+  </script>
+</html>

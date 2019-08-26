@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/lhyt/advance-learning/issues"
   },
-  "homepage": "https://github.com/lhyt/advance-learning#readme"
+  "homepage": "https://github.com/lhyt/advance-learning#readme",
+  "dependencies": {
+    "@types/three": "^0.103.2"
+  }
 }
