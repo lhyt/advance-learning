@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>dialog</title>
+    <style>
+      body {
+        height: 100vh;
+      }
+      .dlg-warpper {
+        background-color: rgba(0, 0, 0, .8);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+      .x-dialog {
+        position: absolute;
+        z-index: 2;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        width: 200px;
+        text-align: center;
+        border-radius: 8px;
+        border: 1px solid #000;
+        padding: 16px;
+        user-select: none;
+      }
+      .x-dialog header {
+        font-weight: bolder;
+      }
+      .x-dialog footer {
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
+  </head>
+  <body></body>
+  <script>
+    class Dialog {
+      constructor(opts = {}) {
+        this.onCancel = opts.onCancel || (() => {});
+        this.onOk = opts.onOk || (() => {});
+        this.title = opts.title || "please enter title";
+        this.body = opts.body || "please enter body";
+        this.footer = opts.footer || [
+          {
+            title: "cancel"
+          },
+          {
+            title: "ok"
+          }
+        ];
+        this.warpper();
+        this.init();
+        this.drag();
+        this.warp.appendChild(this.dom)
+      }
+
+      init() {
+        const dom = document.createElement("aside");
+        dom.className = "x-dialog";
+        dom.innerHTML = `
+      <header>${this.title}</header>
+      <section>${this.body}</section>
+    `;
+        this.dom = dom;
+        Object.defineProperty(this, "_dom", {
+          get() {
+            return this.dom;
+          },
+          set(val) {
+            val
+              ? val.appendChild(this.warp)
+              : this.warp.parentNode &&
+                this.warp.parentNode.removeChild(this.warp);
+          }
+        });
+        this.renderFooter();
+      }
+
+      open(mountNode = document.body) {
+        this._dom = mountNode;
+      }
+
+      close() {
+        this._dom = null;
+      }
+
+      warpper() {
+        const warp = document.createElement('div');
+        warp.className = 'dlg-warpper'
+        this.warp = warp;
+      }
+
+      renderFooter() {
+        if (this.footer) {
+          const footer = document.createElement("footer");
+          const btns = this.footer.map(({ title = "unknown" }, index) => {
+            const btn = document.createElement("button");
+            btn.dataset.midIndex = index;
+            btn.innerText = title;
+            footer.appendChild(btn);
+            return btn;
+          });
+          footer.addEventListener("click", e => {
+            const currentIndex = e.target.dataset.midIndex;
+            (this.footer[currentIndex].cb || (() => {})).call(btns[currentIndex],e);
+            this.close();
+          });
+          this.dom.appendChild(footer);
+        }
+      }
+
+      drag() {
+        let diffX = 0;
+        let diffY = 0;
+        const handleDrag = e => {
+          const { x, y } = this.dom.getBoundingClientRect();
+          this.dom.style.left = x + e.clientX - diffX + "px";
+          this.dom.style.top = y + e.clientY - diffY + "px";
+          diffX = e.clientX;
+          diffY = e.clientY;
+        };
+        document.addEventListener("mousedown", e => {
+          if (e.path.includes(this.dom)) {
+            const { x, y } = this.dom.getBoundingClientRect();
+            diffX = e.clientX;
+            diffY = e.clientY;
+            document.addEventListener("mousemove", handleDrag);
+          } else {
+            e.preventDefault();
+          }
+        });
+        document.addEventListener("mouseup", e => {
+          diffX = 0;
+          diffY = 0;
+          document.removeEventListener("mousemove", handleDrag);
+        });
+      }
+    }
+    const instance = new Dialog();
+    instance.open();
+  </script>
+</html>
