@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>unset</title>
+  </head>
+  <body>
+    <style style="display: block" contenteditable="true">
+      /* button {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            outline: none;
+            padding: 0;
+          } */
+
+      button {
+        all: unset;
+      }
+
+      .a {
+        width: 500px;
+        height: 500px;
+        overflow: scroll;
+      }
+
+      .inner {
+        height: 1000px;
+      }
+
+      div::-webkit-scrollbar {
+        /* 这里的宽是指竖向滚动条的宽，高是指横向滚动条的高*/
+        width: 16px;
+        height: 16px;
+        background: pink;
+      }
+      div::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: linear-gradient(red, orange);
+      }
+
+      .div {  width: 100px;  padding: 0 10px;  background: pink;  margin-bottom: 10px;  text-align-last:justify; /* 这是关键属性 */}
+
+    </style>
+    <button>123</button>
+    <div class="a">
+      <div class="inner"></div>
+    </div>
+
+    <div class="div">账号</div><div class="div">密码设置</div><div class="div">手机号</div>
+  </body>
+</html>
