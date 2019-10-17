@@ -1,9 +1,8 @@
 "use strict";
 
-const b = require("./b.js");
-var _b = _interopRequireDefault(b);
+var _b = _interopRequireDefault(require("./b.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-console.log(b, _b);
 //index.js
 console.log(_b["default"]);

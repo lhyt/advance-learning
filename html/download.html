@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>download</title>
+  </head>
+  <body>
+    <a download="s.json" href="">+</a>
+  </body>
+  <script>
+    // const blob = new Blob(['{"a": 1}'], { type: "text/json" });
+    // const url = URL.createObjectURL(blob);
+    // document.querySelector("a").href = url;
+    function downloadTxt(json) {
+      const blob = new Blob([JSON.stringify(json, null, 2)], {
+        type: "text/json"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.download = "a.json";
+      a.href = url;
+      a.click();
+    }
+  </script>
+</html>

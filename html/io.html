@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>io</title>
+  </head>
+  <body></body>
+  <script>
+    function property(path) {
+      const temp = Array.isArray(path) ? path : path.split(".");
+      return function(o) {
+        let res = o;
+        while (temp.length && res) {
+          res = res[temp.shift()];
+        }
+        return res;
+      };
+    }
+
+    function differenceBy(origin, diff = [], iteratee) {
+      iteratee = typeof iteratee === "function" ? iteratee : property(iteratee);
+      return origin.reduce(
+        (acc, cur, i) => [
+          ...acc,
+          ...(iteratee(diff[i]) !== iteratee(cur) ? [cur] : [])
+        ],
+        []
+      );
+    }
+  </script>
+</html>

@@ -16,6 +16,7 @@ function stepOne(filename) {
   traverse(ast, {
     //获取通过import引入的模块
     ImportDeclaration({ node }) {
+      console.log(node);
       const dirname = path.dirname(filename);
       const newFile = "./" + path.join(dirname, node.source.value);
       //保存所依赖的模块
@@ -48,7 +49,7 @@ function stepTwo(entry) {
   //接下来生成图谱
   const graph = {};
   graphArray.forEach(item => {
-    fs.writeFileSync('./dist' + item.filename.slice(1), item.code)
+    fs.writeFileSync("./dist" + item.filename.slice(1), item.code);
     graph[item.filename] = {
       dependencies: item.dependencies,
       code: item.code
