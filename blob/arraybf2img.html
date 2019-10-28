@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>arraybuffer2img</title>
+  </head>
+  <body></body>
+  <script>
+    // ArrayBuffer本质上是类型化数组，它作为内存区域，可以存放多种类型的数据
+    // ArrayBuffer不能直接操作，而是要通过类型数组对象或DataView对象来操作
+    // 它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容
+    // 这些类型数组对象我们称为“视图”
+    fetch("http://localhost:2000", {
+      mode: "cors"
+    }).then(r => {
+      r.arrayBuffer().then(res => {
+        // new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+
+        const imgUrl =
+          "data:image/jpeg;base64," +
+          btoa(String.fromCharCode(...new Uint8Array(res)));
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        document.body.appendChild(img);
+      });
+    });
+  </script>
+</html>

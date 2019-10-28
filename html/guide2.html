@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>guide2</title>
+  </head>
+  <body></body>
+  <script>
+    void (function() {
+      document.body.innerHTML = "<button>click</button>".repeat(200);
+    })();
+
+    function injectGuide(eles) {
+      const canvas = document.createElement("canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      Object.assign(canvas.style, {
+        position: "fixed",
+        top: "0px",
+        left: "0px",
+        right: "0px",
+        bottom: "0px",
+        zIndex: "1000"
+        // background: "rgba(0, 0, 0, .65)"
+      });
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "rgba(0, 0, 0, .6)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const current = {};
+      const handleClick = ({ clientX, clientY }) => {
+        const { left, top, width, height } = current;
+        if (
+          clientX >= left &&
+          clientX <= left + width &&
+          clientY >= top &&
+          clientY <= clientY + height
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "rgba(0, 0, 0, .6)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          doGuide();
+        }
+      };
+      canvas.addEventListener("click", handleClick);
+
+      let cursor = 0;
+
+      return function doGuide() {
+        const ele = eles[cursor++];
+        if (ele) {
+          const { top, left, height, width } = ele.getBoundingClientRect();
+          Object.assign(current, { left, top, width, height });
+          ctx.fillStyle = "rgba(255, 255, 255, .6)";
+          ctx.clearRect(left, top, width, height);
+          ctx.fillText(`第¥${cursor}步`, left + 4, top + 32);
+        } else {
+          canvas.removeEventListener("click", handleClick);
+          canvas.parentElement.removeChild(canvas);
+        }
+      };
+    }
+    const btns = document.querySelectorAll("button");
+    const doGuide = injectGuide(
+      Array.from({ length: 5 }).map(() => btns[~~(Math.random() * 150)])
+    );
+    doGuide();
+  </script>
+</html>

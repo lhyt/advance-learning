@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>guide</title>
+  </head>
+  <body></body>
+  <script>
+    void (function() {
+      document.body.innerHTML = "<button>click</button>".repeat(200);
+    })();
+
+    function injectGuide(eles) {
+      const modal = document.createElement("aside");
+      Object.assign(modal.style, {
+        position: "fixed",
+        top: "0px",
+        left: "0px",
+        right: "0px",
+        bottom: "0px",
+        zIndex: "1000",
+        background: "rgba(0, 0, 0, .65)"
+      });
+      document.body.appendChild(modal);
+      let cursor = 0;
+
+      return function doGuide() {
+        const ele = eles[cursor++];
+        if (ele) {
+          const { top, left } = ele.getBoundingClientRect();
+          const newNode = ele.cloneNode(true);
+          const styles = getComputedStyle(newNode);
+          Object.assign(
+            newNode.style,
+            Object.values(styles).reduce((res, style) => {
+              res[style] = styles.getPropertyValue(style);
+              return res;
+            }, {}),
+            {
+              position: "fixed",
+              top: `${top}px`,
+              left: `${left}px`
+            }
+          );
+          const container = document.createElement("div");
+
+          const handler = () => {
+            newNode.removeEventListener("click", handler);
+            container.parentNode.removeChild(container);
+            doGuide();
+          };
+          newNode.addEventListener("click", handler);
+          const aside = document.createElement("aside");
+          aside.innerHTML = `第${cursor}步`;
+          Object.assign(aside.style, {
+            position: "fixed",
+            top: `${top + 16}px`,
+            left: `${left}px`,
+            color: "#fff"
+          });
+          container.appendChild(newNode);
+          container.appendChild(aside);
+          modal.appendChild(container);
+        } else {
+          modal.parentElement.removeChild(modal);
+          return;
+        }
+      };
+    }
+
+    const btns = document.querySelectorAll("button");
+    const doGuide = injectGuide(
+      Array.from({ length: 10 }).map(() => btns[~~(Math.random() * 150)])
+    );
+    doGuide();
+  </script>
+  <script></script>
+</html>
