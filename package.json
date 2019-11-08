@@ -6,7 +6,7 @@
   "scripts": {
     "git": "git pull && git add . && git commit -m",
     "postgit": "git push",
-    "build": "babel babel -d babel/dist"
+    "build": "babel babel -d babel-dist"
   },
   "repository": {
     "type": "git",
@@ -20,13 +20,18 @@
   },
   "homepage": "https://github.com/lhyt/advance-learning#readme",
   "dependencies": {
-    "@types/three": "^0.103.2"
+    "@babel/runtime": "^7.7.2",
+    "@babel/runtime-corejs2": "^7.7.2",
+    "@types/three": "^0.103.2",
+    "core-js": "^2.6.10",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
     "@babel/core": "^7.5.5",
     "@babel/parser": "^7.5.5",
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/traverse": "^7.5.5",
