@@ -1,10 +1,13 @@
-import React from "react";
-import s from "../../loaders/rawl!./1.txt";
-import img from "../../loaders/url?mimetype=image!./1.png";
-import $ from "jquery";
+import React from 'react';
+import s from '../../loaders/rawl!./1.txt';
+import img from '../../loaders/url?mimetype=image!./1.png';
+import $ from 'jquery';
 
 console.log($);
 $.Animation;
+
+console.log(NICE_FEATURE, 'NICE_FEATURE');
+console.log(qq, 'qq');
 // import LazyReactDom from "bundle-loader?lazy!react-dom";
 
 // LazyReactDom(ReactDom => {
@@ -13,11 +16,11 @@ $.Animation;
 // });
 
 export default function S() {
-  console.log(s, "s");
+  console.log(s, 's');
   return (
     <div>
       <h1>h21</h1>66623 react5 c12pn1
-      <img src={img} alt="" srcset="" />
+      <img src={img} />
     </div>
   );
 }

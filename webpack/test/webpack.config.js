@@ -52,6 +52,9 @@ module.exports = {
       filename: 'index.html', // 最终创建的文件名
       template: path.join(__dirname, 'src/index.html'), // 指定模板路径
     }),
+    new webpack.DefinePlugin({
+      NICE_FEATURE: true,
+    }),
     // new AddAssetHtmlWebpackPlugin({
     //   filepath: path.resolve(__dirname, "dll/jquery.dll.js") // 对应的 dll 文件路径
     // }),
@@ -60,6 +63,9 @@ module.exports = {
     // }),
 
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProvidePlugin({
+      qq: 'jquery',
+    }),
   ],
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
