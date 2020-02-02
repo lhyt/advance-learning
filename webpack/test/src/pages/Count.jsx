@@ -1,6 +1,10 @@
 import React from "react";
 import s from "../../loaders/rawl!./1.txt";
 import img from "../../loaders/url?mimetype=image!./1.png";
+import $ from "jquery";
+
+console.log($);
+$.Animation;
 // import LazyReactDom from "bundle-loader?lazy!react-dom";
 
 // LazyReactDom(ReactDom => {
@@ -18,53 +22,41 @@ export default function S() {
   );
 }
 
-function fn(){
-  console.log(fn);
-}
-fn()
+// 前:
+// 栈S;
+// p= root;
+// while(p || S不空){
+//     while(p){
+//         访问p节点；
+//         p的右子树入S;
+//         p = p的左子树;
+//     }
+//     p = S栈顶弹出;
+// }
 
-var o = {
-  fn2: function() {
-    console.log(fn2);
-  }
-}
-o.fn2()
+// 后:
+// 栈S;
+// p= root;
+// while(p || S不空){
+//     while(p){
+//         访问p节点；
+//         p的左子树入S;
+//         p = p的右子树;
+//     }
+//     p = S栈顶弹出;
+// }
+// 结果序列逆序;
 
-前:
-栈S;
-p= root;
-while(p || S不空){
-    while(p){
-        访问p节点；
-        p的右子树入S;
-        p = p的左子树;
-    }
-    p = S栈顶弹出;
-}
+// 中：
 
-后:
-栈S;
-p= root;
-while(p || S不空){
-    while(p){
-        访问p节点；
-        p的左子树入S;
-        p = p的右子树;
-    }
-    p = S栈顶弹出;
-}
-结果序列逆序;
-
-中：
-
-栈S;
-p= root;
-while(p || S不空){
-    while(p){
-        p入S;
-        p = p的左子树;
-    }
-    p = S.top 出栈;
-    访问p;
-    p = p的右子树;
-}
+// 栈S;
+// p= root;
+// while(p || S不空){
+//     while(p){
+//         p入S;
+//         p = p的左子树;
+//     }
+//     p = S.top 出栈;
+//     访问p;
+//     p = p的右子树;
+// }
