@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>unset</title>
-  </head>
-  <body>
     <style style="display: block" contenteditable="true">
       /* button {
             background: none;
@@ -17,7 +15,7 @@
             padding: 0;
           } */
 
-      button {
+      /* button {
         all: unset;
       }
 
@@ -32,7 +30,6 @@
       }
 
       div::-webkit-scrollbar {
-        /* 这里的宽是指竖向滚动条的宽，高是指横向滚动条的高*/
         width: 16px;
         height: 16px;
         background: pink;
@@ -42,14 +39,53 @@
         background: linear-gradient(red, orange);
       }
 
-      .div {  width: 100px;  padding: 0 10px;  background: pink;  margin-bottom: 10px;  text-align-last:justify; /* 这是关键属性 */}
-
+      .div {
+        width: 100px;
+        padding: 0 10px;
+        background: pink;
+        margin-bottom: 10px;
+        text-align-last: justify; 
+      } */
     </style>
-    <button>123</button>
+  </head>
+  <body>
+    <div style="height: 600px;width: 100%"></div>
+    <div id="last"></div>
+    <!-- <button>123</button>
     <div class="a">
       <div class="inner"></div>
     </div>
 
-    <div class="div">账号</div><div class="div">密码设置</div><div class="div">手机号</div>
+    <div class="div">账号</div>
+    <div class="div">密码设置</div>
+    <div class="div">手机号</div> -->
+    <script>
+      const last = document.querySelector("#last");
+      function getImg() {
+        fetch("//api.mtyqx.cn/api/random.php?return=json", {
+          mode: "no-cors"
+        })
+          .then(r => {
+            r.json().then(s => {
+              console.log(s);
+              const img = document.createElement("img");
+              img.src = s.imgurl;
+              img.width = 500;
+              img.height = 500;
+              document.body.insertBefore(img, last);
+            });
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
+      new IntersectionObserver(entries => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (isIntersecting) {
+            getImg();
+          }
+        });
+      }).observe(last);
+    </script>
   </body>
 </html>

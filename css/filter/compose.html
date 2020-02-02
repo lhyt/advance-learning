@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>compose</title>
+    <style>
+      .hero {
+        position: relative;
+        height: 300px;
+        mix-blend-mode: color;
+        background: url("https://www.baidu.com/img/baidu_resultlogo@2.png")
+          center/cover;
+      }
+
+      .hero:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(180deg, #851717 0%, #30328c 100%);
+        mix-blend-mode: color;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero"></div>
+  </body>
+</html>

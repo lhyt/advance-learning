@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>iframe</title>
+  </head>
+  <body>
+    <iframe onload="" src="./if.html" frameborder="0"></iframe>
+  </body>
+  <script>
+    // document.querySelector("iframe").contentWindow.f = () => {
+    //   console.log(123123123);
+    // };
+    // document.querySelector("iframe").onload = () => {
+    //   window.frames[0].postMessage("data from html1", "*");
+    // };
+
+    // const isIframe = location.search;
+    // if (isIframe) {
+    //   window.addEventListener("storage", e => console.log(e, "child"));
+    // } else {
+    //   const iframe = document.createElement("iframe");
+    //   iframe.src = location.href + "?a=1";
+    //   document.body.appendChild(iframe);
+    //   setTimeout(() => {
+    //     localStorage.setItem("a", localStorage.getItem("a") + 1);
+    //   }, 2000);
+    //   window.addEventListener("storage", e => console.log(e, "parent"));
+    // }
+
+    // setTimeout(() => {
+    //   localStorage.setItem("a", localStorage.getItem("a") + 1);
+    // }, 2000);
+    // window.addEventListener("storage", e => console.log(e, "parent"));
+    // const iframe = document.querySelector("iframe");
+    // const { src } = iframe;
+    // function postMessageToIframe(data) {
+    //   iframe.src = `${src}#${encodeURIComponent(JSON.stringify(data))}`;
+    // }
+
+    // window.onhashchange = () => {
+    //   const data = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+    //   console.log(data, "data from child >>>>");
+    // };
+
+    // const channel = new MessageChannel();
+    // document.querySelector("iframe").contentWindow.port2 = channel.port2;
+    // document.querySelector("iframe").onload = () => {
+    //   console.log(111);
+    //   document
+    //     .querySelector("iframe")
+    //     .contentWindow.postMessage("data from html1", "*", [channel.port1]);
+    //   // channel.port1.postMessage({ a: 1 });
+    // };
+
+    const iframe = document.querySelector("iframe");
+
+    // window.parentPageApis = window.parentPageApis || {};
+    // // 父页面自己给自己注入子页面调用的方法
+    // Object.assign(window.parentPageApis, {
+    //   childComponentDidMount() {
+    //     console.log("子页面did mount");
+    //   },
+    //   changeTitle(title) {
+    //     document.title = title;
+    //   },
+    //   showDialog() {
+    //     // 弹窗
+    //   }
+    // });
+
+    // iframe.contentWindow.callParentApi = function(name, ...args) {
+    //   window.parentPageApis[name].apply(null, args);
+    // };
+
+    // iframe.contentWindow.childPageApis =
+    //   iframe.contentWindow.childPageApis || {};
+    // Object.assign(iframe.contentWindow.childPageApis, {
+    //   // 给子页面注入方法
+    // });
+    // setTimeout(() => {
+    //   callChildApi("log", "父页面调子页面的log方法打印");
+    // }, 2000);
+    const worker = new SharedWorker("./worker.js");
+    window.worker = worker;
+    worker.port.addEventListener(
+      "message",
+      e => {
+        console.log("parent 来自worker的数据：", e);
+      },
+      false
+    );
+    worker.port.start();
+    setTimeout(() => {
+      worker.port.postMessage({
+        from: "parent",
+        data: {
+          a: 111,
+          b: 26
+        }
+      });
+    }, 2000);
+  </script>
+</html>

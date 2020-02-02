@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      .file-item {
+        background: #f00;
+      }
+      .green {
+        background: #0f0;
+      }
+    </style>
+    <title>upload</title>
+  </head>
+  <body>
+    选择文件(可多选):
+    <input type="file" id="f1" multiple /><br />
+    标题：<input type="text" name="title" id="title" />
+    <button onclick="upload()" type="button" id="btn-submit">上 传</button>
+    <div class="review"></div>
+  </body>
+  <script>
+    const container = document.querySelector(".review");
+    function uploadOne(file, index) {
+      const fdata = new FormData();
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:8100/", true);
+      xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      xhr.upload.onprogress = xhr.onprogress = function(event) {
+        console.log(event, "updateProgress");
+        const progressSpan = document.querySelectorAll(".file-item")[index];
+        if (event.lengthComputable) {
+          var completedPercent = ((event.loaded / event.total) * 100).toFixed(
+            2
+          );
+          progressSpan.style.width = completedPercent + "%";
+          progressSpan.innerHTML = completedPercent + "%";
+          if (completedPercent > 90) {
+            //进度条变色
+            progressSpan.classList.add("green");
+          }
+          console.log("已上传", completedPercent);
+        }
+        xhr.onreadystatechange = function() {
+          console.log("state change", xhr.readyState);
+          if (this.readyState == 4 && this.status == 200) {
+            var obj = JSON.parse(xhr.responseText); //返回值
+            if (obj.fileUrls.length) {
+              console.info("success");
+            }
+          }
+        };
+      };
+      fdata.append("f1", file);
+      xhr.send(fdata);
+    }
+    function upload() {
+      const fdata = new FormData();
+      const { files } = document.querySelector("#f1");
+      let html = "";
+      [...files].forEach((file, i) => {
+        uploadOne(file, i);
+        html += `${file.name}: <span class="file-item"></span>`;
+      });
+      container.innerHTML = html;
+    }
+  </script>
+</html>

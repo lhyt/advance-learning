@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>glass</title>
+    <style>
+      .bg,
+      .container::before {
+        background-image: url("http://img2.imgtn.bdimg.com/it/u=1737072847,1699534261&fm=26&gp=0.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      .bg {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        z-index: -1;
+      }
+
+      .container::before {
+        content: "";
+        filter: blur(20px);
+        z-index: -1;
+      }
+
+      .container {
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        font-size: 30px;
+        /* 用transform会悲剧哦 */
+        left: calc(50% - 250px);
+        top: calc(50% - 200px);
+      }
+
+      .container,
+      .container::before {
+        width: 500px;
+        height: 400px;
+        position: absolute;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="bg"></main>
+    <section class="container">
+      i am lhyt am lhyt am lhyt am lhyt am lhyt am lhyt am lhyt am lhyt am lhyt
+      am lhyt
+    </section>
+  </body>
+  <script></script>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>IntersectionObserver</title>
+    <style>
+      body {
+        height: 2000px;
+      }
+      .div {
+        position: absolute;
+        background: #ff0;
+      }
+      .lazy-load {
+        width: 300px;
+        height: 300px;
+        background: #aaa;
+        display: block;
+        margin-bottom: 300px;
+      }
+      .long-list {
+        height: 200px;
+        background: #bbb;
+        margin-bottom: 100px;
+      }
+      .last {
+        border: 1px solid #f00;
+      }
+      .top {
+        background-color: aqua;
+      }
+      .top.fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      ul {
+        /* display: flex; */
+      }
+
+      li {
+        list-style: none;
+        float: left;
+        background-color: lightseagreen;
+        width: 300px;
+        height: 300px;
+        margin-bottom: 100px;
+        margin-right: 50px;
+      }
+
+      ul li.show {
+        animation: left 1s ease;
+      }
+      ul li.show:nth-child(2n) {
+        animation: right 1s ease;
+      }
+
+      @keyframes left {
+        from {
+          opacity: 0;
+          transform: translate(-20px, 20px);
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes right {
+        from {
+          opacity: 0;
+          transform: translate(20px, 20px);
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body></body>
+  <script>
+    const ran = () => Math.random() * 800;
+    function render(innerHTML, n = 5) {
+      document.body.innerHTML = Array.from({ length: n }).reduce(
+        str => str + innerHTML(),
+        ""
+      );
+    }
+
+    function testNormal() {
+      render(() =>
+        `<div class="div" style="top: ${ran()}px;left: ${ran()}px">${Math.random()}</div>`.repeat(
+          2
+        )
+      );
+      const divs = document.querySelectorAll("div");
+      const io = new IntersectionObserver(entries => {
+        console.log(entries);
+        // entries.forEach(item => console.log(item));
+        // ...
+      });
+      divs.forEach(div => io.observe(div));
+    }
+
+    const ref = {
+      get imgsrc() {
+        return `./static/1.jpg?a=${Math.random()}`;
+      }
+    };
+
+    function testLazyLoad() {
+      render(() => `<img class="lazy-load" data-src="${ref.imgsrc}"">`);
+      const imgs = document.querySelectorAll(".lazy-load");
+      const io = new IntersectionObserver(entries => {
+        // console.log(entries);
+        entries.forEach(({ isIntersecting, target }) => {
+          if (isIntersecting) {
+            target.setAttribute("src", target.getAttribute("data-src"));
+            io.unobserve(target);
+          }
+        });
+        // ...
+      });
+      imgs.forEach(img => io.observe(img));
+    }
+
+    function appendChildBeforeLast(last, ele) {
+      document.body.insertBefore(ele, last);
+    }
+
+    function testLonglist() {
+      let i = 0;
+      const nums = {
+        get value() {
+          return ++i;
+        }
+      };
+      render(() => `<div class="long-list">${nums.value}</div>`);
+      const last = document.createElement("div");
+      last.classList.add("last");
+      document.body.appendChild(last);
+      new IntersectionObserver(entries => {
+        entries.forEach(({ isIntersecting, target }) => {
+          if (isIntersecting) {
+            last.innerText = "loading...";
+            setTimeout(() => {
+              last.innerText = "";
+              for (let j = 0; j < 5; j++) {
+                const newEle = document.createElement("div");
+                newEle.classList.add("long-list");
+                newEle.innerText = nums.value;
+                appendChildBeforeLast(last, newEle);
+              }
+            }, 1000);
+          }
+        });
+        // ...
+      }).observe(last);
+    }
+
+    function testFixTop() {
+      render(() => `<div class="refference"></div><div class="top">1</div>`, 1);
+      const ele = document.querySelector(".top");
+      new IntersectionObserver(entries => {
+        entries.forEach(({ boundingClientRect: { top }, target }) => {
+          if (top < 0) {
+            ele.classList.add("fixed");
+          } else {
+            ele.classList.remove("fixed");
+          }
+        });
+        // ...
+      }).observe(document.querySelector(".refference"));
+    }
+
+    function testAnimation() {
+      render(
+        () => `
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      `,
+        1
+      );
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (isIntersecting) {
+            target.classList.add("show");
+            io.unobserve(target);
+          }
+        });
+      });
+      document.querySelectorAll("li").forEach(e => io.observe(e));
+    }
+
+    // test code:
+    // testNormal();
+    // testLazyLoad();
+    testLonglist();
+    // testFixTop();
+    // testAnimation();
+  </script>
+</html>

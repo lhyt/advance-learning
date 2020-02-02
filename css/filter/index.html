@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>filter</title>
+  </head>
+  <body></body>
+  <script>
+    const url =
+      "http://img0.imgtn.bdimg.com/it/u=2309502909,4210960075&fm=26&gp=0.jpg";
+    let html = "";
+    [
+      {
+        name: "灰度100%",
+        style: "grayscale(100%)"
+      },
+      {
+        name: "模糊5px",
+        style: "blur(5px)"
+      },
+      {
+        name: "3倍亮度",
+        style: "brightness(300%)"
+      },
+      {
+        name: "200%对比度",
+        style: "contrast(200%)"
+      },
+      {
+        name: "200%饱和度",
+        style: "saturate(200%)"
+      },
+      {
+        name: "色相旋转180度",
+        style: "hue-rotate(180deg)"
+      },
+      {
+        name: "100%反色",
+        style: "invert(100%)"
+      },
+      {
+        name: "50%透明度",
+        style: "opacity(50%)"
+      },
+      {
+        name: "阴影",
+        style: "drop-shadow(10px 5px 5px #f00)"
+      },
+      {
+        name: "褐色程度70%",
+        style: "sepia(70%)"
+      }
+    ].forEach(({ name, style }) => {
+      html += `<div>${name}-${style}: <img src=${url} style="filter: ${style}" /></div><br />`;
+    });
+    document.body.innerHTML = html;
+  </script>
+</html>

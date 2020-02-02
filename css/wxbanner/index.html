@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>wx</title>
+    <style>
+      .main-container {
+        width: 350px;
+        overflow-y: hidden;
+        height: 400px;
+        transition: all 0.3s;
+        position: relative;
+      }
+      .banner-container {
+        width: 980px;
+        display: flex;
+        justify-content: left;
+        transition: left 0.3s;
+        position: relative;
+        left: 0;
+        /* direction: rtl; */
+      }
+      .item {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #f00;
+        margin-right: 20px;
+        transition: all 0.3s;
+      }
+      /* .item:nth-child(4) {
+        transform: scale(2);
+      } */
+    </style>
+  </head>
+  <body>
+    <main class="main-container">
+      <section class="banner-container">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+        <div class="item">7</div>
+        <div class="item">8</div>
+        <div class="item">9</div>
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+      </section>
+    </main>
+  </body>
+  <script>
+    var s = 0;
+    var i = 0;
+    const container = document.querySelector(".banner-container");
+    // container.style.left = "0px";
+    setInterval(() => {
+      if (s === -630) {
+        s = 70;
+        container.style.transition = "none";
+        container.style.left = `${(s -= 70)}px`;
+        setTimeout(() => {
+          container.style.transition = "all 0.3s";
+          container.style.left = `${(s -= 70)}px`;
+
+          // document.querySelectorAll(".item")[2 + (i % 9)].style.scale = "1";
+          // document.querySelectorAll(".item")[3 + (i % 9)].style.scale = "2";
+          // i++;
+          // i %= 9;
+          console.error(i);
+        });
+        return;
+      } else {
+        container.style.transition = "all 0.3s";
+      }
+
+      document.querySelectorAll(".item")[2 + (i % 9)].style.scale = "1";
+      document.querySelectorAll(".item")[3 + (i % 9)].style.scale = "2";
+      i++;
+      i %= 9;
+      console.error(i);
+      // // setTimeout(() => {
+      container.style.left = `${(s -= 70)}px`;
+      // });
+      // document.querySelector(".main-container").style.left = `${s}px`;
+      // container.insertBefore(
+      //   container.lastElementChild,
+      //   document.querySelector(".item")
+      // );
+      // setTimeout(() => {
+      // container.appendChild(document.querySelector(".item").cloneNode(true));
+      // }, 350);
+    }, 1000);
+  </script>
+</html>

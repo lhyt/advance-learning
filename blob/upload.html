@@ -52,6 +52,9 @@
       标题：<input type="text" name="title" id="title" />
       <button type="button" id="btn-submit">上 传</button>
     </div>
+    <div id="progress">
+      <span class="red"></span>
+    </div>
   </body>
   <script>
     // var iframe = document.getElementById("temp-iframe");
@@ -80,18 +83,35 @@
 
       var xhr = new XMLHttpRequest(); //创建对象
       xhr.open("POST", "http://localhost:8100/", true);
-
-      xhr.send(fd); //发送时  Content-Type默认就是: multipart/form-data;
+      xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      xhr.onprogress = updateProgress;
+      xhr.upload.onprogress = updateProgress;
       xhr.onreadystatechange = function() {
         console.log("state change", xhr.readyState);
         if (this.readyState == 4 && this.status == 200) {
           var obj = JSON.parse(xhr.responseText); //返回值
-          console.log(obj);
-          if (obj.fileUrl.length) {
-            alert("上传成功");
+          if (obj.fileUrls.length) {
+            // alert("上传成功");
           }
         }
       };
+      function updateProgress(event) {
+        console.log(event, "updateProgress");
+        const progressSpan = document.querySelector(".red");
+        if (event.lengthComputable) {
+          var completedPercent = ((event.loaded / event.total) * 100).toFixed(
+            2
+          );
+          progressSpan.style.width = completedPercent + "%";
+          progressSpan.innerHTML = completedPercent + "%";
+          if (completedPercent > 90) {
+            //进度条变色
+            progressSpan.classList.add("green");
+          }
+          console.log("已上传", completedPercent);
+        }
+      }
+      xhr.send(fd); //发送时  Content-Type默认就是: multipart/form-data;
     }
 
     //绑定提交事件

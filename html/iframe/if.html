@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>iframe</div>
+  </body>
+  <script>
+    // window.onload = () => {
+    //   window.f && window.f();
+    // };
+    // window.addEventListener(
+    //   "message",
+    //   e => {
+    //     console.log(e);
+    //   },
+    //   false
+    // );
+    // window.onhashchange = e => {
+    //   const data = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+    //   console.log(data, "data >>>>");
+    // };
+    // window.addEventListener("popstate", event => {
+    //   console.error(
+    //     "location: " +
+    //       document.location +
+    //       ", state: " +
+    //       JSON.stringify(event.state)
+    //   );
+    // });
+    // console.log(13123);
+    // window.history.pushState({ page: 1 }, "title 1", "?page=1");
+    // window.history.back(-1);
+    // window.addEventListener("storage", e => console.log(e, "child"));
+
+    // const channel = new MessageChannel();
+    // window.port2.addEventListener("message", function(e) {
+    //   console.error(e);
+    //   // window.parent.postMessage(e, "*", [channel.port2]);
+    // });
+    // window.port2.onmessage = e => {
+    //   console.error(e);
+    // };
+    // onmessage = e => {
+    //   console.log(e);
+    // };
+    // console.error(window.port2);
+
+    // window.childPageApis = window.childPageApis || {};
+    // Object.assign(window.childPageApis, {
+    //   // 子页面自己给自己注入方法
+    //   log(...args) {
+    //     console.log(...args);
+    //   }
+    // });
+    // window.parent.window.callChildApi = function(name, ...args) {
+    //   childPageApis[name].apply(null, args);
+    // };
+    // window.onload = () => {
+    //   // 假设这里有react一系列流程运行...
+    //   setTimeout(() => {
+    //     // 假设现在是react组件didmount的时候
+    //     window.callParentApi("childComponentDidMount");
+    //   }, 1000);
+    // };
+
+    const worker = new SharedWorker("./worker.js");
+    worker.port.onmessage = function(e) {
+      console.log("child", e);
+    };
+    worker.port.start();
+    setTimeout(() => {
+      worker.port.postMessage({ data: [1, 2, 3] });
+    }, 1000);
+  </script>
+</html>

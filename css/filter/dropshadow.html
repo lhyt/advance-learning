@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>shadow</title>
+    <style>
+      @keyframes shadow_move {
+        from {
+          top: 400px;
+          left: 400px;
+          filter: blur(20px);
+        }
+
+        to {
+          top: 0;
+          left: -250px;
+          filter: blur(0);
+        }
+      }
+
+      @keyframes container_move {
+        from {
+          top: 0;
+          filter: blur(20px);
+          left: 0;
+        }
+
+        to {
+          top: 200px;
+          left: 400px;
+          filter: blur(0);
+        }
+      }
+
+      @keyframes body_contrast {
+        from {
+          filter: contrast(20);
+        }
+
+        to {
+          filter: contrast(1);
+        }
+      }
+
+      .shadow,
+      .shadow::before {
+        width: 250px;
+        height: 400px;
+        background: url("http://img2.imgtn.bdimg.com/it/u=1737072847,1699534261&fm=26&gp=0.jpg")
+          no-repeat;
+        background-size: cover;
+      }
+      .shadow {
+        position: relative;
+        animation: container_move 3s infinite ease;
+        background-position-x: -250px;
+      }
+      .shadow::before {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: -1;
+        animation: shadow_move 3s infinite ease;
+      }
+
+      body {
+        animation: body_contrast 3s infinite ease;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="shadow"></section>
+  </body>
+</html>
