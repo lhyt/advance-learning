@@ -20,34 +20,34 @@
   </body>
   <script>
     function submitUpload() {
-      var progressSpan = document.getElementById("progress").firstElementChild;
-      var fileList = document.getElementById("f1").files;
-      progressSpan.style.width = "0";
-      progressSpan.classList.remove("green");
+      var progressSpan = document.getElementById('progress').firstElementChild;
+      var fileList = document.getElementById('f1').files;
+      progressSpan.style.width = '0';
+      progressSpan.classList.remove('green');
 
       if (!fileList.length) {
-        alert("请选择文件");
+        alert('请选择文件');
         return;
       }
 
       var fd = new FormData(); //构造FormData对象
-      fd.append("title", document.getElementById("title").value);
+      fd.append('title', document.getElementById('title').value);
 
       for (var i = 0; i < fileList.length; i++) {
-        fd.append("f1", fileList[i]); //支持多文件上传
+        fd.append('f1', fileList[i]); //支持多文件上传
       }
 
       var xhr = new XMLHttpRequest(); //创建对象
-      xhr.open("POST", "http://localhost:8100/", true);
+      xhr.open('POST', 'http://localhost:8100/', true);
 
       xhr.onreadystatechange = function() {
-        console.log("state change", xhr.readyState);
+        console.log('state change', xhr.readyState);
         if (xhr.readyState == 4) {
           // var obj = JSON.parse(xhr.responseText); //返回值
           console.log(xhr.responseText);
-          if (obj.fileUrl.length) {
-            //alert('上传成功');
-          }
+          // if (obj.fileUrl.length) {
+          //   //alert('上传成功');
+          // }
         }
       };
 
@@ -57,15 +57,15 @@
         console.log(event);
         if (event.lengthComputable) {
           var completedPercent = ((event.loaded / event.total) * 100).toFixed(
-            2
+            2,
           );
-          progressSpan.style.width = completedPercent + "%";
-          progressSpan.innerHTML = completedPercent + "%";
+          progressSpan.style.width = completedPercent + '%';
+          progressSpan.innerHTML = completedPercent + '%';
           if (completedPercent > 90) {
             //进度条变色
-            progressSpan.classList.add("green");
+            progressSpan.classList.add('green');
           }
-          console.log("已上传", completedPercent);
+          console.log('已上传', completedPercent);
         }
       }
       //注意 send 一定要写在最下面，否则 onprogress 只会执行最后一次 也就是100%的时候
@@ -73,7 +73,7 @@
     }
     //绑定提交事件
     document
-      .getElementById("btn-submit")
-      .addEventListener("click", submitUpload);
+      .getElementById('btn-submit')
+      .addEventListener('click', submitUpload);
   </script>
 </html>

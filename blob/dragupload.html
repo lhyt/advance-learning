@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>upload</title>
+    <style>
+      .container {
+        width: 400px;
+        height: 300px;
+        line-height: 300px;
+        border: 2px dashed #aaa;
+        text-align: center;
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">拖拽上传</div>
+  </body>
+  <script>
+    document.addEventListener('drop', function(e) {
+      console.log('document drog');
+      e.preventDefault();
+    });
+    const container = document.querySelector('.container');
+    container.addEventListener('drop', e => {
+      e.preventDefault();
+      console.log(e);
+    });
+  </script>
+</html>

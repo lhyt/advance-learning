@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>immer</title>
+  </head>
+  <body></body>
+  <script>
+    const cache = new Map();
+    const IMMER_FLAG = Symbol();
+    const newObjCache = new Map();
+    function getProxy(o) {
+      if (o && o[IMMER_FLAG]) {
+        return o;
+      }
+      if (`${o}` === '[object Object]' || Array.isArray(o)) {
+        if (cache.has(o)) {
+          return cache.get(o);
+        }
+        const proxyObj = new Proxy(o, {
+          get(target, key) {
+            if (key === IMMER_FLAG) {
+              return target;
+            }
+            return getProxy((newObjCache.get(target) || target)[key]);
+          },
+          set(target, key, value) {
+            let newObj;
+            if (newObjCache.has(target)) {
+              newObj = newObjCache.get(target);
+            } else {
+              newObj = Array.isArray(target) ? [...target] : { ...target };
+              newObjCache.set(target, newObj);
+            }
+            const newVal = getProxy(value);
+            newObj[key] = newVal;
+          },
+        });
+        cache.set(o, proxyObj);
+        return proxyObj;
+      }
+      return o;
+    }
+
+    function getNormalObj(o) {
+      if (`${o}` === '[object Object]' || Array.isArray(o)) {
+        if (!(cache.has(o) || newObjCache.has(o))) {
+          return o;
+        }
+        let newObj;
+        if (newObjCache.has(o)) {
+          newObj = newObjCache.get(o);
+        } else {
+          newObj = Array.isArray(o) ? [...o] : { ...o };
+          newObjCache.set(o, newObj);
+        }
+        Object.keys(newObj).forEach(key => {
+          newObj[key] = getNormalObj(newObj[key]);
+        });
+        return newObj;
+      }
+      return o;
+    }
+    function produce(o, cb) {
+      const proxyObj = getProxy(o);
+      cb(o);
+      return getNormalObj(o);
+    }
+
+    var sss = produce({ info: { age: 1, c: 2 } }, draftState => {
+      draftState.info.age = 26;
+      draftState.info.career = '222';
+    });
+  </script>
+</html>

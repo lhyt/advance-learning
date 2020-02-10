@@ -6,7 +6,7 @@
   "scripts": {
     "git": "git pull && git add . && git commit -m",
     "postgit": "git push",
-    "build": "babel babel -d babel-dist"
+    "build": "babel babel/src -d babel/dist"
   },
   "repository": {
     "type": "git",

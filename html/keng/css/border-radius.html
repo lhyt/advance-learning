@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      div {
+        border: 1px #01f0ff solid;
+      }
+      .a {
+        border-radius: 10px;
+        overflow: hidden;
+        /* position: relative;
+        z-index: 1; */
+      }
+
+      .b {
+        transform: translateX(100px);
+        width: 600px;
+        height: 400px;
+      }
+      input::-webkit-input-placeholder {
+        color: rgb(41, 94, 199);
+      }
+
+      /* ios阴影 */
+      input {
+        -webkit-appearance: none;
+      }
+
+      div {
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="a">
+      <div class="b">
+        父元素设置了border-radius，子元素应用了transform，并且父元素设置了overflow:hidden，但是却失效？
+      </div>
+    </div>
+    <input placeholder="placeholder" type="text" />
+  </body>
+</html>

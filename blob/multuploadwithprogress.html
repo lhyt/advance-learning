@@ -20,51 +20,56 @@
     标题：<input type="text" name="title" id="title" />
     <button onclick="upload()" type="button" id="btn-submit">上 传</button>
     <div class="review"></div>
+    <button onclick="cancel()">取消</button>
   </body>
   <script>
-    const container = document.querySelector(".review");
+    const container = document.querySelector('.review');
     function uploadOne(file, index) {
       const fdata = new FormData();
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://localhost:8100/", true);
-      xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      xhr.open('POST', 'http://localhost:8100/', true);
+      window.cancel = xhr.abort.bind(xhr);
+      xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
       xhr.upload.onprogress = xhr.onprogress = function(event) {
-        console.log(event, "updateProgress");
-        const progressSpan = document.querySelectorAll(".file-item")[index];
+        console.log(event, 'updateProgress');
+        const progressSpan = document.querySelectorAll('.file-item')[index];
         if (event.lengthComputable) {
           var completedPercent = ((event.loaded / event.total) * 100).toFixed(
-            2
+            2,
           );
-          progressSpan.style.width = completedPercent + "%";
-          progressSpan.innerHTML = completedPercent + "%";
+          progressSpan.style.width = completedPercent + '%';
+          progressSpan.innerHTML = completedPercent + '%';
           if (completedPercent > 90) {
             //进度条变色
-            progressSpan.classList.add("green");
+            progressSpan.classList.add('green');
           }
-          console.log("已上传", completedPercent);
+          console.log('已上传', completedPercent);
         }
         xhr.onreadystatechange = function() {
-          console.log("state change", xhr.readyState);
+          console.log('state change', xhr.readyState);
           if (this.readyState == 4 && this.status == 200) {
+            window.cancel = null;
             var obj = JSON.parse(xhr.responseText); //返回值
             if (obj.fileUrls.length) {
-              console.info("success");
+              console.info('success');
             }
           }
         };
       };
-      fdata.append("f1", file);
+      fdata.append('f1', file);
       xhr.send(fdata);
     }
     function upload() {
       const fdata = new FormData();
-      const { files } = document.querySelector("#f1");
-      let html = "";
+      const { files } = document.querySelector('#f1');
+      let html = '';
       [...files].forEach((file, i) => {
         uploadOne(file, i);
         html += `${file.name}: <span class="file-item"></span>`;
       });
       container.innerHTML = html;
     }
+
+    function cancel() {}
   </script>
 </html>

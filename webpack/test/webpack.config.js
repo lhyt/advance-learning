@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const Cons = require('./plugin/console');
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = {
@@ -66,6 +67,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       qq: 'jquery',
     }),
+    new Cons(),
   ],
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
