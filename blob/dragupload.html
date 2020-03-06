@@ -25,9 +25,17 @@
       e.preventDefault();
     });
     const container = document.querySelector('.container');
-    container.addEventListener('drop', e => {
+    container.addEventListener('dragover', function(e) {
+      console.log('document dragover');
       e.preventDefault();
-      console.log(e);
+    });
+    container.addEventListener('dragleave', function(e) {
+      console.log('document dragleave');
+      // e.preventDefault();
+    });
+    container.addEventListener('drop', e => {
+      // e.preventDefault();
+      console.log(e.dataTransfer.files);
     });
   </script>
 </html>
