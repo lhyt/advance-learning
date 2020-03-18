@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@</title>
+  </head>
+  <body>
+    <textarea id="test"></textarea>
+  </body>
+  <script>
+    function getWidth(txt) {
+      [].forEach.call(txt, str => {
+        if (/(\d|\w/) {
+        }
+      });
+    }
+    const txa = document.querySelector('#test');
+    txa.addEventListener('input', e => {
+      const v = e.target.value;
+      if (v) {
+        const newVal = v[e.target.selectionEnd - 1];
+        if (newVal === '@') {
+        }
+      }
+    });
+
+    // setInterval(() => {
+    //   console.log(txa.selectionEnd - txa.selectionStart);
+    //   console.log(txa.textLength);
+    // }, 2000);
+  </script>
+</html>

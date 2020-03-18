@@ -71,6 +71,25 @@
 [2,3]
 A
 
+1. cdn原理
+2. 为什么多域名部署
+3. 单元测试、e2e测试
+4. event loop
+5. 项目介绍一下
+6. 客户端mock怎么支持
+7. 怎么mock真数据，我需要真的id怎么办，除了写死
+8. 什么情况用ts、什么时候不用
+9. 单元测试和ts结合
+10. 全球远程调度机器实现自动化测试
+11. cjs实现esm
+
+1. 项目介绍。权限系统业界内怎么设计，常见的几种
+2. 工作量体现到什么地方，现在工作量大吗
+3. 最困难的环节
+4. 优点缺点、未来规划
+5. 怕被人挑战吗，怎么应对
+
+
 
 1. react16新生命周期，有什么变化
 2. react16之前的那些不好的生命周期怎么过度到react16的新生命周期
@@ -84,3 +103,70 @@ A
 10. 你们项目有ci吗，怎么做，提交的时候会做什么事情
 11. e2e测试、自动化测试
 12. git rebase什么作用
+
+
+1. 项目介绍
+2. 项目难点
+3. 实现一个redux
+4. 如果是用ts写，怎么写
+
+
+
+1. react生命周期介绍，怎么执行。说一下下面的组件生命周期执行顺序
+  ```<A> <B /> </A>```
+  a.willMount 3
+  b.willMount 1
+  a.didMount 4
+  b.didMount 2
+2. redux vs context，为什么不用context
+3. react 17要做什么规划，concurrent mode
+4. SSR，打开你们的SSR页面看看，具体逻辑、实现方式
+5. promise.then(f1, f2)和promise.then(f1).catch(f2)区别
+6. () => {} vs function () {}
+7. 
+```js
+const obj = {‏‎ ‎
+  f1:‏‎ ‎() => console.log(this),
+  f2‏‎ ‎() { console.log(this) },
+};
+obj.f1() // global
+obj.f2() // obj
+new obj.f1; // instance
+new obj.f2; // instance
+```
+8. Map/Set、WeakMap，什么作用
+9. 用setTimeout实现setInterval
+10. Node { value: number; children: Node[] }，算出树每一层节点和，输出数组
+```
+         2         => 2
+  2      3      5  => 10
+1   2  3   4   7 8 => 25
+// 每一层的和 [2, 10, 25]；
+```
+
+
+1. 节流、和防抖的区别，均匀的节流怎么实现
+2. http缓存、强制缓存里面expire和cache-control作用，什么坑
+3. 前端路由实现。history什么坑，怎么解决
+4. var、let、const区别，() => {} vs function () {}
+5. 一副扑克牌，随机抽 5 张，判断是否是顺子，大小王可以替代任意牌。
+['A', '2', '3', 'S', 'B']   true
+6. ES5 实现 B 继承 A
+
+
+1. 项目难点，画一下架构
+2. 有了解其他权限系统吗，对比下
+3. http请求的整个过程
+4. 怎么知道一个tcp请求数据已经完了呢
+5. 微博的@的下面出现一个提示怎么实现。不是editable喔，基于textarea怎么实现
+6. 怎么知道服务端请求回来后，客户端是局域网下哪一个ip
+7. 为什么是tcp而不是udp。tcp丢包怎么办，怎么知道丢包，怎么知道已经重传成功了
+8. 了解http3的quic吗
+9. quic怎么解决了tcp的问题
+10. quic用udp怎么保证了可靠性
+11. quic的udp如果不握手，人家随便发请求怎么办
+12. 函数式编程、纯函数
+13. 状态管理系统设计，怎么和函数式编程结合
+14. rxjs介绍一下
+15. 数组和链表的区别
+16. 数组和链表优点缺点，应用场景
