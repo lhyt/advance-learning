@@ -1,13 +1,8 @@
 import React from 'react';
 import s from '../../loaders/rawl!./1.txt';
-import img from '../../loaders/url?mimetype=image!./1.png';
-import $ from 'jquery';
+import img from '../../loaders/file?mimetype=image!./1.png';
 
-console.log($);
-$.Animation;
-
-console.log(NICE_FEATURE, 'NICE_FEATURE');
-console.log(qq, 'qq');
+console.log(img);
 // import LazyReactDom from "bundle-loader?lazy!react-dom";
 
 // LazyReactDom(ReactDom => {
@@ -19,7 +14,7 @@ export default function S() {
   console.log(s, 's');
   return (
     <div>
-      <h1>h21</h1>66623 react5 c12pn1
+      <h1>h1</h1>
       <img src={img} />
     </div>
   );
