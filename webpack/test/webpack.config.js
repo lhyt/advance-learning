@@ -24,9 +24,9 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          // { loader: "./loaders/asyncconsole" },
-          // { loader: "./loaders/console" },
-          { loader: './loaders/addhtml' },
+          // { loader: './loaders/asyncconsole' },
+          { loader: './loaders/console' },
+          // { loader: './loaders/addhtml' },
           { loader: './loaders/addapi' },
           // { loader: "babel-loader" }
         ],

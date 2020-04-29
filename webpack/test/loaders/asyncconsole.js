@@ -6,7 +6,7 @@ module.exports = function(content, ...r) {
       `${content}
     console.log('loader', this)
   `,
-      ...r
+      ...r,
     );
-  }, 10);
+  }, 1000);
 };
