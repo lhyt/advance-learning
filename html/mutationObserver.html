@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>MutationObserver</title>
+    <style>
+      /* .a::before {
+      content: '';
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      background-color: aliceblue;
+    } */
+    </style>
+  </head>
+
+  <body>
+    <section>
+      ssc
+      <div>
+        asd
+        <article>
+          aadsfasdadad
+        </article>
+      </div>
+    </section>
+    <div class="a" style="color: red;">123</div>
+    <canvas></canvas>
+  </body>
+  <script>
+    const targetNode = document.body;
+    const tg = document.querySelector('.a').parentNode;
+
+    // Options for the observer (which mutations to observe)
+    const config = {
+      childList: true,
+      attributes: true,
+    };
+
+    // Callback function to execute when mutations are observed
+    const mutationCallback = (mutations) => {
+      console.log(mutations, 'mutations');
+      for (const mutation of mutations) {
+        const { type } = mutation;
+        switch (type) {
+          case 'childList':
+            mutation.removedNodes.forEach((n) => {
+              tg.appendChild(n);
+            });
+            break;
+          case 'attributes':
+            mutation.removedNodes.forEach((s) => {
+              const n = s.target;
+            });
+            console.log(
+              `The ${mutation.attributeName} attribute was modified.`
+            );
+            break;
+          case 'subtree':
+            console.log('The subtree was modified.');
+            break;
+          default:
+            break;
+        }
+      }
+    };
+
+    // Create an observer instance linked to the callback function
+    // let observer = new MutationObserver(mutationCallback);
+
+    // // Start observing the target node for configured mutations
+    // observer.observe(targetNode, config);
+
+    function observeSelector(element) {
+      if (element) {
+        const parentNode = element.parentNode || document.body;
+        // 为什么这么做？因为这是最原始的，如果直接拿element克隆只能拿到具有最新属性的节点
+        const newClonedNode = element.cloneNode(true);
+        new MutationObserver((mutations) => {
+          console.log(mutations, 'mutations');
+          mutations.forEach((mutationRecord) => {
+            const currentTarget = mutationRecord.target;
+            const removedNode = mutationRecord.removedNodes[0];
+            // 修改属性的时候，target就是当前元素
+            if (currentTarget === element) {
+              const replaceNode = newClonedNode.cloneNode(true);
+              parentNode.replaceChild(replaceNode, element);
+              element = replaceNode;
+            } else {
+              // 删除元素的时候，removedNodes是一个数组，只删它一个，那第一个就是当前元素
+              if (removedNode === element) {
+                element = element.cloneNode(true);
+                parentNode.appendChild(element);
+              }
+            }
+          });
+        }).observe(document.body, {
+          attributes: true,
+          childList: true,
+          subtree: true,
+        });
+      }
+    }
+
+    // function observeSelector(e) {
+    //   if (e) {
+    //     var t = e.cloneNode(!0)
+    //       , n = e.parentNode || document.body;
+    //     new MutationObserver(function (r) {
+    //       e && r.forEach(function (r) {
+    //         var o = r.target
+    //           , i = Array.prototype.slice.call(r.removedNodes)[0];
+    //         if (o === e) {
+    //           var a = t.cloneNode(!0);
+    //           n.replaceChild(a, e),
+    //             e = a
+    //         } else
+    //           i === e && (e = e.cloneNode(!0),
+    //             n.appendChild(e))
+    //       })
+    //     }
+    //     ).observe(document.body, {
+    //       attributes: !0,
+    //       childList: !0,
+    //       subtree: !0
+    //     })
+    //   }
+    // }
+    observeSelector(document.querySelector('.a'));
+
+    // var str = `.cGVvcGxlLXdhdGVybWFyay1tYXNr::before {
+    //   content: '';
+    //   position: fixed;
+    //   top: 0px;
+    //   bottom: 0px;
+    //   left: 0px;
+    //   right: 0px;
+    //   pointer-events: none;
+    //   overflow: hidden;
+    //   background-color: rgba(137, 137, 137, 0.95);
+    // }`;
+
+    // var style = document.createElement('style');
+    // style.textContent = str;
+    // document.head.appendChild(style);
+    // document.body.style.filter = 'contrast(6.5)';
+
+    // var b64 =
+    //   'data:image/png;base64,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';
+
+    // const canvas = document.querySelector('canvas');
+    // const ctx = canvas.getContext('2d');
+    // const img = new Image();
+    // img.src = b64;
+    // ctx.drawImage(img, 20, 20, 100, 100);
+    // var d = ctx.getImageData(0, 0, 100, 100);
+    // console.log(d);
+    // document.body.appendChild(img);
+    ('cGVvcGxlLXdhdGVybWFyay1tYXNr');
+    const other = document.createElement('div');
+    document.documentElement.appendChild(other);
+    const modal = document.querySelector('.cGVvcGxlLXdhdGVybWFyay1tYXNr');
+    [].forEach.call(document.body.children, (node) => {
+      console.log(node);
+      if (node !== modal) {
+        other.appendChild(node);
+      }
+    });
+
+    // ((targetNode) => {
+    //   new MutationObserver((mutations) => {
+    //     console.log(mutations, 'mutations1');
+    //     mutations.forEach(({ addedNodes }) => {
+    //       addedNodes.forEach(node => {
+    //         console.error(node === targetNode, 1);
+    //         if (node === targetNode) {
+    //           document.body.appendChild(targetNode)
+    //         }
+    //       })
+    //     });
+    //   }).observe(document.documentElement, {
+    //     childList: true,
+    //   });
+    // })(document.querySelector('#mainBox'));
+
+    // ((targetNode) => {
+    //   new MutationObserver((mutations) => {
+    //     console.log(mutations, 'mutations2');
+    //     mutations.forEach(({ addedNodes }) => {
+    //       addedNodes.forEach(node => {
+    //         console.error(node === targetNode, 2);
+    //         if (node === targetNode) {
+    //           document.documentElement.appendChild(targetNode)
+    //         }
+    //       })
+    //     });
+    //   }).observe(document.body, {
+    //     childList: true,
+    //   });
+    // })(document.querySelector('#mainBox'));
+  </script>
+</html>

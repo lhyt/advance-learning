@@ -1,0 +1,12 @@
+{
+  "name": "deno",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deno": "deno run --allow-net --unstable --importmap=deps.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
