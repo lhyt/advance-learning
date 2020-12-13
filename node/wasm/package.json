@@ -1,0 +1,16 @@
+{
+  "name": "wasm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "wasm": "GOOS=js GOARCH=wasm go build -o main.wasm",
+    "wasm1": "node $(shell go env GOROOT)/misc/wasm/wasm_exec.js main.wasm"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

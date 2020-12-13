@@ -1,20 +1,18 @@
 {
-  "name": "Getting Started Example",
+  "description": "Demonstrating webRequests",
+  "manifest_version": 2,
+  "name": "webRequest-demo",
   "version": "1.0",
-  "description": "Build an Extension!",
-  "permissions": ["storage"],
+
+  "permissions": ["webRequest", "<all_urls>"],
+
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
-  "page_action": {
-    "default_popup": "index.html"
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["./background.js"]
+      "js": ["./a.js"]
     }
-  ],
-  "manifest_version": 2
+  ]
 }

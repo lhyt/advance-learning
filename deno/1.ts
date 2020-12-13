@@ -6,7 +6,7 @@ const path = require('path');
 const __dirname = path.dirname(import.meta.url);
 console.log(serve, __dirname, window);
 
-fetch('http://www.baidu.com').then(r => {
+fetch('http://www.qq.com').then(r => {
   r.text().then(res => {
     console.log(res);
   });

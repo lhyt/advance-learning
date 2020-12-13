@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./wasm_exec.js"></script>
+    <script>
+      const go = new Go();
+      WebAssembly.instantiateStreaming(
+        fetch('./main.wasm'),
+        go.importObject
+      ).then(result => {
+        go.run(result.instance);
+      });
+      // async function fetchAndInstantiate() {
+      //   const response = await fetch('./main.wasm');
+      //   const buffer = await response.arrayBuffer();
+      //   const obj = await WebAssembly.instantiate(buffer, {
+      //     imports: { imported_func: arg => console.log(arg) },
+      //   });
+      //   console.log(obj.instance.exports.add(1, 2)); // "3"
+      // }
+      // // fetchAndInstantiate();
+      var importObject = {
+        imports: { imported_func: arg => console.log(arg) },
+      };
+
+      WebAssembly.instantiateStreaming(
+        fetch('./simple.wasm'),
+        importObject
+      ).then(obj => obj.instance.exports.exported_func());
+    </script>
+  </body>
+</html>

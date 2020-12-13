@@ -1,11 +1,6 @@
-console.log(999);
-// window.t = setInterval(() => {
-//   window.MutationObserver = function F() {};
-//   window.WebKitMutationObserver = function FF() {};
-// }, 100);
+function logURL(requestDetails) {
+  console.log(`Loading: ${requestDetails.url}`);
+}
 
-let s = document.createElement('script');
-s.textContent = `console.log('sc');
-  window.MutationObserver = function F() {};
-  window.WebKitMutationObserver = function FF() {};`;
-document.head.insertBefore(s, document.head.firstChild);
+console.log('req ', 212);
+chrome.webRequest.onBeforeRequest.addListener(logURL, { urls: ['<all_urls>'] });

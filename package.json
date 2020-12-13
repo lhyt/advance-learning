@@ -22,10 +22,12 @@
   "dependencies": {
     "@babel/runtime": "^7.7.2",
     "@babel/runtime-corejs2": "^7.7.2",
+    "@types/echarts": "^4.6.3",
     "@types/three": "^0.103.2",
     "commander": "^4.0.1",
     "core-js": "^2.6.10",
     "lodash": "^4.17.15",
+    "odiff-bin": "^1.0.2",
     "puppeteer": "^3.0.4",
     "tapable": "^1.1.3"
   },
